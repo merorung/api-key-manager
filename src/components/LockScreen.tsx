@@ -176,9 +176,8 @@ export function LockScreen({ onUnlocked }: Props) {
             style={{
               marginTop: "16px",
               padding: "12px 14px",
-              borderLeft: "3px solid #3b82f6",
               background: "rgba(59, 130, 246, 0.06)",
-              borderRadius: "0 6px 6px 0",
+              borderRadius: "6px",
             }}
           >
             <p style={{ fontSize: "13px", color: "#c8c8d8", lineHeight: "1.7", margin: 0 }}>
