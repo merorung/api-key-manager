@@ -172,6 +172,10 @@ pub fn update_settings(
     new_settings: AppSettings,
     state: State<'_, AppState>,
 ) -> Result<(), String> {
+    let path = std::path::PathBuf::from(&new_settings.vault_path);
+    if path.to_string_lossy().starts_with("\\\\") {
+        return Err("네트워크 경로는 사용할 수 없습니다".to_string());
+    }
     let mut settings = state.settings.lock().unwrap();
     *settings = new_settings;
     settings.save()
@@ -228,4 +232,10 @@ pub fn recover_vault(
     let mut vault_state = state.vault.lock().unwrap();
     *vault_state = Some(vault);
     Ok(new_recovery_code)
+}
+
+#[tauri::command]
+pub fn copy_to_clipboard(text: String, state: State<'_, AppState>) -> Result<(), String> {
+    let settings = state.settings.lock().unwrap();
+    state.clipboard.copy_and_schedule_clear(&text, settings.clipboard_timeout)
 }

@@ -2,6 +2,7 @@ use arboard::Clipboard;
 use std::sync::Mutex;
 use std::thread;
 use std::time::Duration;
+use zeroize::Zeroize;
 
 pub struct ClipboardManager {
     clear_handle: Mutex<Option<thread::JoinHandle<()>>>,
@@ -24,7 +25,7 @@ impl ClipboardManager {
         }
 
         let timeout = Duration::from_secs(timeout_secs);
-        let copied_text = text.to_string();
+        let mut copied_text = text.to_string();
         *handle = Some(thread::spawn(move || {
             thread::sleep(timeout);
             if let Ok(mut cb) = Clipboard::new() {
@@ -34,8 +35,7 @@ impl ClipboardManager {
                     }
                 }
             }
-            // copied_text is dropped here, but String doesn't zeroize on drop
-            // This is acceptable as the clear thread is short-lived
+            copied_text.zeroize();
         }));
 
         Ok(())

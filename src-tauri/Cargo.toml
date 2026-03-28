@@ -22,6 +22,7 @@ serde_json = "1"
 aes-gcm = "0.10"
 argon2 = { version = "0.5", features = ["std"] }
 zeroize = { version = "1", features = ["derive"] }
+subtle = "2"
 uuid = { version = "1", features = ["v4"] }
 arboard = "3"
 rand = "0.8"

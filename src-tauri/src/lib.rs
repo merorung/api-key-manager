@@ -40,6 +40,7 @@ pub fn run() {
             commands::update_settings,
             commands::setup_vault_with_recovery,
             commands::recover_vault,
+            commands::copy_to_clipboard,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -56,4 +56,7 @@ export const api = {
 
   recoverVault: (recoveryCode: string, newPassword: string) =>
     invoke<string>("recover_vault", { recoveryCode, newPassword }),
+
+  copyToClipboard: (text: string) =>
+    invoke<void>("copy_to_clipboard", { text }),
 };

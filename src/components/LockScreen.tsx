@@ -61,7 +61,7 @@ export function LockScreen({ onUnlocked }: Props) {
         </div>
         <button
           onClick={() => {
-            navigator.clipboard.writeText(recoveryCode || "");
+            api.copyToClipboard(recoveryCode || "");
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
           }}
