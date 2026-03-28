@@ -22,7 +22,6 @@ export function LockScreen({ onUnlocked }: Props) {
 
   if (isFirstRun === null) return null;
 
-  // Show recovery code after first setup
   if (recoveryCode) {
     return (
       <div
@@ -36,57 +35,47 @@ export function LockScreen({ onUnlocked }: Props) {
           padding: "20px",
         }}
       >
-        <h1 style={{ color: "#fff", marginBottom: "8px", fontSize: "24px" }}>
-          복구 코드
+        <div style={{ fontSize: "13px", color: "#ef4444", fontWeight: 500, letterSpacing: "0.05em", textTransform: "uppercase" as const, marginBottom: "16px" }}>
+          중요
+        </div>
+        <h1 style={{ color: "#e8e8ee", marginBottom: "12px", fontSize: "22px", fontWeight: 600 }}>
+          복구 코드를 저장하세요
         </h1>
-        <p
-          style={{
-            color: "#ef4444",
-            marginBottom: "24px",
-            fontSize: "14px",
-            textAlign: "center",
-            maxWidth: "360px",
-          }}
-        >
-          이 코드는 다시 볼 수 없습니다. 안전한 곳에 적어두세요.
+        <p style={{ color: "#9a9aaa", marginBottom: "28px", fontSize: "14px", textAlign: "center", maxWidth: "340px", lineHeight: "1.6" }}>
+          이 코드는 다시 볼 수 없습니다.
           <br />
-          비밀번호를 잊었을 때 이 코드로 복구할 수 있습니다.
+          비밀번호를 잊었을 때 유일한 복구 수단입니다.
         </p>
         <div
           style={{
-            background: "#1e1e2a",
-            border: "2px solid #2563eb",
-            borderRadius: "12px",
-            padding: "24px 32px",
-            marginBottom: "32px",
+            background: "#1a1a24",
+            border: "1px solid #2a2a3a",
+            borderRadius: "10px",
+            padding: "20px 28px",
+            marginBottom: "28px",
           }}
         >
-          <span
-            style={{
-              color: "#fff",
-              fontSize: "24px",
-              fontFamily: "monospace",
-              letterSpacing: "3px",
-              fontWeight: "bold",
-            }}
-          >
+          <span style={{ color: "#e8e8ee", fontSize: "22px", fontFamily: "'Consolas', 'SF Mono', monospace", letterSpacing: "2px", fontWeight: 600 }}>
             {recoveryCode}
           </span>
         </div>
         <button
           onClick={onUnlocked}
           style={{
-            padding: "12px 40px",
-            fontSize: "16px",
-            fontWeight: "600",
+            padding: "13px 36px",
+            fontSize: "15px",
+            fontWeight: 600,
             color: "#fff",
             background: "#2563eb",
             border: "none",
             borderRadius: "8px",
             cursor: "pointer",
+            transition: "background 0.2s",
           }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "#1d4ed8")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "#2563eb")}
         >
-          코드를 저장했습니다
+          저장했습니다. 계속하기
         </button>
       </div>
     );
@@ -119,6 +108,9 @@ export function LockScreen({ onUnlocked }: Props) {
     }
   };
 
+  const passwordsMatch = confirmPassword && password === confirmPassword;
+  const passwordsMismatch = confirmPassword && password !== confirmPassword;
+
   return (
     <div
       style={{
@@ -131,92 +123,97 @@ export function LockScreen({ onUnlocked }: Props) {
         padding: "20px",
       }}
     >
-      <h1 style={{ color: "#fff", marginBottom: "8px", fontSize: "24px" }}>
-        Key Manager
-      </h1>
-      <p style={{ color: "#aaa", marginBottom: "32px", fontSize: "14px" }}>
-        {isFirstRun
-          ? "마스터 비밀번호를 설정하세요"
-          : "마스터 비밀번호를 입력하세요"}
-      </p>
+      {/* Header */}
+      <div style={{ marginBottom: "32px", textAlign: "center" }}>
+        <h1 style={{ color: "#e8e8ee", marginBottom: "6px", fontSize: "22px", fontWeight: 600 }}>
+          Key Manager
+        </h1>
+        <p style={{ color: "#8888a0", fontSize: "14px" }}>
+          {isFirstRun
+            ? "마스터 비밀번호를 설정하세요"
+            : "마스터 비밀번호를 입력하세요"}
+        </p>
+      </div>
+
+      {/* Form */}
       <form
         onSubmit={handleSubmit}
-        style={{ width: "100%", maxWidth: "360px" }}
+        style={{ width: "100%", maxWidth: "340px" }}
       >
-        <PasswordInput
-          value={password}
-          onChange={setPassword}
-          showStrength={isFirstRun}
-          showToggle={isFirstRun}
-        />
-        {isFirstRun && (
-          <>
-            <div style={{ marginTop: "12px" }}>
-              <PasswordInput
-                value={confirmPassword}
-                onChange={setConfirmPassword}
-                placeholder="비밀번호 확인"
-                showToggle
-              />
-            </div>
-            {confirmPassword && (
-              <div
-                style={{
-                  fontSize: "13px",
-                  marginTop: "8px",
-                  color: password === confirmPassword ? "#22c55e" : "#ef4444",
-                }}
-              >
-                {password === confirmPassword
-                  ? "비밀번호가 일치합니다"
-                  : "비밀번호가 일치하지 않습니다"}
-              </div>
-            )}
-            <div
-              style={{
-                fontSize: "12px",
-                color: "#bbb",
-                marginTop: "14px",
-                lineHeight: "1.6",
-                background: "rgba(255, 255, 255, 0.04)",
-                border: "1px solid #3a3a4a",
-                borderRadius: "8px",
-                padding: "12px",
-              }}
-            >
-              비밀번호는 한 번 설정하면 복구 코드로만 변경할 수 있습니다.
-              <br />
-              설정 후 표시되는 복구 코드를 반드시 안전한 곳에 보관하세요.
-            </div>
-          </>
+        {/* Password fields */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <PasswordInput
+            value={password}
+            onChange={setPassword}
+            showStrength={isFirstRun}
+            showToggle={isFirstRun}
+          />
+          {isFirstRun && (
+            <PasswordInput
+              value={confirmPassword}
+              onChange={setConfirmPassword}
+              placeholder="비밀번호 확인"
+              showToggle
+            />
+          )}
+        </div>
+
+        {/* Match indicator */}
+        {passwordsMatch && (
+          <div style={{ fontSize: "13px", marginTop: "8px", color: "#22c55e" }}>
+            비밀번호가 일치합니다
+          </div>
         )}
-        {error && (
+        {passwordsMismatch && (
+          <div style={{ fontSize: "13px", marginTop: "8px", color: "#ef4444" }}>
+            비밀번호가 일치하지 않습니다
+          </div>
+        )}
+
+        {/* Notice */}
+        {isFirstRun && (
           <div
             style={{
-              color: "#ef4444",
-              fontSize: "14px",
-              marginTop: "12px",
+              marginTop: "16px",
+              padding: "12px 14px",
+              borderLeft: "3px solid #3b82f6",
+              background: "rgba(59, 130, 246, 0.06)",
+              borderRadius: "0 6px 6px 0",
             }}
           >
+            <p style={{ fontSize: "13px", color: "#c8c8d8", lineHeight: "1.7", margin: 0 }}>
+              비밀번호는 한 번 설정하면 <span style={{ color: "#e8e8ee", fontWeight: 500 }}>복구 코드로만 변경</span>할 수 있습니다. 설정 후 표시되는 복구 코드를 반드시 안전한 곳에 보관하세요.
+            </p>
+          </div>
+        )}
+
+        {/* Error */}
+        {error && (
+          <div style={{ color: "#ef4444", fontSize: "13px", marginTop: "12px" }}>
             {error}
           </div>
         )}
+
+        {/* Submit */}
         <button
           type="submit"
           disabled={loading || !password}
           style={{
             width: "100%",
-            padding: "12px",
+            padding: "13px",
             marginTop: "20px",
-            fontSize: "16px",
-            fontWeight: "600",
+            fontSize: "15px",
+            fontWeight: 600,
             color: "#fff",
             background: "#2563eb",
             border: "none",
             borderRadius: "8px",
             cursor: loading || !password ? "not-allowed" : "pointer",
-            opacity: loading || !password ? 0.5 : 1,
+            opacity: loading || !password ? 0.4 : 1,
+            transition: "opacity 0.2s, background 0.2s",
           }}
+          onMouseEnter={(e) => { if (!loading && password) e.currentTarget.style.background = "#1d4ed8"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = "#2563eb"; }}
         >
           {loading
             ? "처리 중..."
@@ -225,6 +222,8 @@ export function LockScreen({ onUnlocked }: Props) {
               : "잠금 해제"}
         </button>
       </form>
+
+      {/* Recovery link */}
       {!isFirstRun && (
         <button
           onClick={() => setShowRecovery(true)}
@@ -232,11 +231,12 @@ export function LockScreen({ onUnlocked }: Props) {
             marginTop: "16px",
             background: "none",
             border: "none",
-            color: "#999",
+            color: "#6a6a80",
             fontSize: "13px",
             cursor: "pointer",
-            textDecoration: "underline",
           }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "#9a9ab0")}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "#6a6a80")}
         >
           비밀번호를 잊으셨나요?
         </button>
