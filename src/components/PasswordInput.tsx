@@ -6,6 +6,7 @@ interface Props {
   value: string;
   onChange: (value: string) => void;
   showStrength?: boolean;
+  showToggle?: boolean;
   placeholder?: string;
 }
 
@@ -13,8 +14,10 @@ export function PasswordInput({
   value,
   onChange,
   showStrength = false,
+  showToggle = false,
   placeholder = "마스터 비밀번호",
 }: Props) {
+  const [visible, setVisible] = useState(false);
   const [validation, setValidation] = useState<PasswordValidation | null>(
     null
   );
@@ -47,23 +50,46 @@ export function PasswordInput({
 
   return (
     <div style={{ width: "100%" }}>
-      <input
-        type="password"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        style={{
-          width: "100%",
-          padding: "12px 16px",
-          fontSize: "16px",
-          border: "1px solid #333",
-          borderRadius: "8px",
-          background: "#1a1a1a",
-          color: "#fff",
-          outline: "none",
-          boxSizing: "border-box",
-        }}
-      />
+      <div style={{ position: "relative" }}>
+        <input
+          type={visible ? "text" : "password"}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          style={{
+            width: "100%",
+            padding: "12px 16px",
+            paddingRight: showToggle ? "48px" : "16px",
+            fontSize: "16px",
+            border: "1px solid #333",
+            borderRadius: "8px",
+            background: "#1a1a1a",
+            color: "#fff",
+            outline: "none",
+            boxSizing: "border-box",
+          }}
+        />
+        {showToggle && (
+          <button
+            type="button"
+            onClick={() => setVisible(!visible)}
+            style={{
+              position: "absolute",
+              right: "8px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "none",
+              border: "none",
+              color: "#666",
+              fontSize: "13px",
+              cursor: "pointer",
+              padding: "4px 8px",
+            }}
+          >
+            {visible ? "숨김" : "보기"}
+          </button>
+        )}
+      </div>
       {showStrength && validation && (
         <div style={{ marginTop: "8px" }}>
           <div

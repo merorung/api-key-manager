@@ -147,6 +147,7 @@ export function LockScreen({ onUnlocked }: Props) {
           value={password}
           onChange={setPassword}
           showStrength={isFirstRun}
+          showToggle={isFirstRun}
         />
         {isFirstRun && (
           <div style={{ marginTop: "12px" }}>
@@ -154,6 +155,7 @@ export function LockScreen({ onUnlocked }: Props) {
               value={confirmPassword}
               onChange={setConfirmPassword}
               placeholder="비밀번호 확인"
+              showToggle
             />
           </div>
         )}
