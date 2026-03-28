@@ -174,12 +174,12 @@ export function LockScreen({ onUnlocked }: Props) {
             )}
             <div
               style={{
-                fontSize: "13px",
-                color: "#f0c040",
+                fontSize: "12px",
+                color: "#bbb",
                 marginTop: "14px",
                 lineHeight: "1.6",
-                background: "rgba(240, 192, 64, 0.08)",
-                border: "1px solid rgba(240, 192, 64, 0.2)",
+                background: "rgba(255, 255, 255, 0.04)",
+                border: "1px solid #3a3a4a",
                 borderRadius: "8px",
                 padding: "12px",
               }}
