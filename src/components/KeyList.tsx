@@ -65,7 +65,7 @@ export function KeyList({ onOpenSettings, onLock }: Props) {
         display: "flex",
         flexDirection: "column",
         height: "100vh",
-        background: "#0a0a0a",
+        background: "#121218",
         padding: "20px",
       }}
     >
@@ -86,7 +86,7 @@ export function KeyList({ onOpenSettings, onLock }: Props) {
             style={{
               padding: "8px 12px",
               fontSize: "13px",
-              background: "#333",
+              background: "#2a2a3a",
               color: "#fff",
               border: "none",
               borderRadius: "6px",
@@ -100,7 +100,7 @@ export function KeyList({ onOpenSettings, onLock }: Props) {
             style={{
               padding: "8px 12px",
               fontSize: "13px",
-              background: "#333",
+              background: "#2a2a3a",
               color: "#fff",
               border: "none",
               borderRadius: "6px",
@@ -146,7 +146,7 @@ export function KeyList({ onOpenSettings, onLock }: Props) {
         {keys.length === 0 ? (
           <div
             style={{
-              color: "#666",
+              color: "#999",
               textAlign: "center",
               marginTop: "40px",
             }}

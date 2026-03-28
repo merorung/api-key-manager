@@ -61,9 +61,9 @@ export function PasswordInput({
             padding: "12px 16px",
             paddingRight: showToggle ? "48px" : "16px",
             fontSize: "16px",
-            border: "1px solid #333",
+            border: "1px solid #3a3a4a",
             borderRadius: "8px",
-            background: "#1a1a1a",
+            background: "#1e1e2a",
             color: "#fff",
             outline: "none",
             boxSizing: "border-box",
@@ -80,7 +80,7 @@ export function PasswordInput({
               transform: "translateY(-50%)",
               background: "none",
               border: "none",
-              color: "#666",
+              color: "#999",
               fontSize: "13px",
               cursor: "pointer",
               padding: "4px 8px",
@@ -96,7 +96,7 @@ export function PasswordInput({
             style={{
               height: "4px",
               borderRadius: "2px",
-              background: "#333",
+              background: "#3a3a4a",
               overflow: "hidden",
             }}
           >

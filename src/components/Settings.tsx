@@ -90,9 +90,9 @@ export function Settings({ onBack }: Props) {
   };
 
   const sectionStyle = {
-    background: "#1a1a1a",
+    background: "#1e1e2a",
     borderRadius: "8px",
-    border: "1px solid #333",
+    border: "1px solid #3a3a4a",
     padding: "20px",
     marginBottom: "16px",
   };
@@ -111,7 +111,7 @@ export function Settings({ onBack }: Props) {
         display: "flex",
         flexDirection: "column",
         height: "100vh",
-        background: "#0a0a0a",
+        background: "#121218",
         padding: "20px",
         overflowY: "auto",
       }}
@@ -128,7 +128,7 @@ export function Settings({ onBack }: Props) {
           style={{
             padding: "8px 12px",
             fontSize: "13px",
-            background: "#333",
+            background: "#2a2a3a",
             color: "#fff",
             border: "none",
             borderRadius: "6px",
@@ -224,7 +224,7 @@ export function Settings({ onBack }: Props) {
             style={{
               padding: "10px 20px",
               fontSize: "14px",
-              background: "#333",
+              background: "#2a2a3a",
               color: "#fff",
               border: "none",
               borderRadius: "8px",
@@ -238,7 +238,7 @@ export function Settings({ onBack }: Props) {
             style={{
               padding: "10px 20px",
               fontSize: "14px",
-              background: "#333",
+              background: "#2a2a3a",
               color: "#fff",
               border: "none",
               borderRadius: "8px",

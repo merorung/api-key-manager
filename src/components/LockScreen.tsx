@@ -32,7 +32,7 @@ export function LockScreen({ onUnlocked }: Props) {
           alignItems: "center",
           justifyContent: "center",
           height: "100vh",
-          background: "#0a0a0a",
+          background: "#121218",
           padding: "20px",
         }}
       >
@@ -54,7 +54,7 @@ export function LockScreen({ onUnlocked }: Props) {
         </p>
         <div
           style={{
-            background: "#1a1a1a",
+            background: "#1e1e2a",
             border: "2px solid #2563eb",
             borderRadius: "12px",
             padding: "24px 32px",
@@ -127,14 +127,14 @@ export function LockScreen({ onUnlocked }: Props) {
         alignItems: "center",
         justifyContent: "center",
         height: "100vh",
-        background: "#0a0a0a",
+        background: "#121218",
         padding: "20px",
       }}
     >
       <h1 style={{ color: "#fff", marginBottom: "8px", fontSize: "24px" }}>
         Key Manager
       </h1>
-      <p style={{ color: "#888", marginBottom: "32px", fontSize: "14px" }}>
+      <p style={{ color: "#aaa", marginBottom: "32px", fontSize: "14px" }}>
         {isFirstRun
           ? "마스터 비밀번호를 설정하세요"
           : "마스터 비밀번호를 입력하세요"}
@@ -174,10 +174,14 @@ export function LockScreen({ onUnlocked }: Props) {
             )}
             <div
               style={{
-                fontSize: "12px",
-                color: "#666",
-                marginTop: "12px",
-                lineHeight: "1.5",
+                fontSize: "13px",
+                color: "#f0c040",
+                marginTop: "14px",
+                lineHeight: "1.6",
+                background: "rgba(240, 192, 64, 0.08)",
+                border: "1px solid rgba(240, 192, 64, 0.2)",
+                borderRadius: "8px",
+                padding: "12px",
               }}
             >
               비밀번호는 한 번 설정하면 복구 코드로만 변경할 수 있습니다.
@@ -228,7 +232,7 @@ export function LockScreen({ onUnlocked }: Props) {
             marginTop: "16px",
             background: "none",
             border: "none",
-            color: "#666",
+            color: "#999",
             fontSize: "13px",
             cursor: "pointer",
             textDecoration: "underline",

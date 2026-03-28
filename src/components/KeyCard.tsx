@@ -24,9 +24,9 @@ export function KeyCard({ entry, onCopy, onEdit, onDelete }: Props) {
         alignItems: "center",
         justifyContent: "space-between",
         padding: "16px",
-        background: "#1a1a1a",
+        background: "#1e1e2a",
         borderRadius: "8px",
-        border: "1px solid #333",
+        border: "1px solid #3a3a4a",
       }}
     >
       <div style={{ flex: 1, minWidth: 0 }}>
@@ -37,7 +37,7 @@ export function KeyCard({ entry, onCopy, onEdit, onDelete }: Props) {
         </div>
         <div
           style={{
-            color: "#666",
+            color: "#999",
             fontSize: "13px",
             fontFamily: "monospace",
             marginTop: "4px",
@@ -47,7 +47,7 @@ export function KeyCard({ entry, onCopy, onEdit, onDelete }: Props) {
         </div>
         {entry.memo && (
           <div
-            style={{ color: "#888", fontSize: "12px", marginTop: "4px" }}
+            style={{ color: "#aaa", fontSize: "12px", marginTop: "4px" }}
           >
             {entry.memo}
           </div>
@@ -80,7 +80,7 @@ export function KeyCard({ entry, onCopy, onEdit, onDelete }: Props) {
           style={{
             padding: "8px 12px",
             fontSize: "13px",
-            background: "#333",
+            background: "#2a2a3a",
             color: "#fff",
             border: "none",
             borderRadius: "6px",
@@ -94,7 +94,7 @@ export function KeyCard({ entry, onCopy, onEdit, onDelete }: Props) {
           style={{
             padding: "8px 12px",
             fontSize: "13px",
-            background: "#333",
+            background: "#2a2a3a",
             color: "#ef4444",
             border: "none",
             borderRadius: "6px",

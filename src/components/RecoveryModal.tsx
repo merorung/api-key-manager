@@ -52,12 +52,12 @@ export function RecoveryModal({ onRecovered, onClose }: Props) {
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          background: "#1a1a1a",
+          background: "#1e1e2a",
           borderRadius: "12px",
           padding: "24px",
           width: "100%",
           maxWidth: "400px",
-          border: "1px solid #333",
+          border: "1px solid #3a3a4a",
         }}
       >
         <h2
@@ -70,7 +70,7 @@ export function RecoveryModal({ onRecovered, onClose }: Props) {
         >
           비밀번호 복구
         </h2>
-        <p style={{ color: "#888", fontSize: "13px", marginBottom: "20px" }}>
+        <p style={{ color: "#aaa", fontSize: "13px", marginBottom: "20px" }}>
           설정 시 받은 복구 코드를 입력하세요
         </p>
         <form onSubmit={handleSubmit}>
@@ -86,9 +86,9 @@ export function RecoveryModal({ onRecovered, onClose }: Props) {
                 fontSize: "16px",
                 fontFamily: "monospace",
                 letterSpacing: "2px",
-                border: "1px solid #333",
+                border: "1px solid #3a3a4a",
                 borderRadius: "8px",
-                background: "#0a0a0a",
+                background: "#121218",
                 color: "#fff",
                 outline: "none",
                 boxSizing: "border-box",
@@ -135,7 +135,7 @@ export function RecoveryModal({ onRecovered, onClose }: Props) {
               style={{
                 padding: "10px 20px",
                 fontSize: "14px",
-                background: "#333",
+                background: "#2a2a3a",
                 color: "#fff",
                 border: "none",
                 borderRadius: "8px",

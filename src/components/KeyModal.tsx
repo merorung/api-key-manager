@@ -66,12 +66,12 @@ export function KeyModal({ entry, onClose }: Props) {
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          background: "#1a1a1a",
+          background: "#1e1e2a",
           borderRadius: "12px",
           padding: "24px",
           width: "100%",
           maxWidth: "400px",
-          border: "1px solid #333",
+          border: "1px solid #3a3a4a",
         }}
       >
         <h2
@@ -95,9 +95,9 @@ export function KeyModal({ entry, onClose }: Props) {
                 width: "100%",
                 padding: "10px 14px",
                 fontSize: "14px",
-                border: "1px solid #333",
+                border: "1px solid #3a3a4a",
                 borderRadius: "8px",
-                background: "#0a0a0a",
+                background: "#121218",
                 color: "#fff",
                 outline: "none",
                 boxSizing: "border-box",
@@ -116,9 +116,9 @@ export function KeyModal({ entry, onClose }: Props) {
                 width: "100%",
                 padding: "10px 14px",
                 fontSize: "14px",
-                border: "1px solid #333",
+                border: "1px solid #3a3a4a",
                 borderRadius: "8px",
-                background: "#0a0a0a",
+                background: "#121218",
                 color: "#fff",
                 outline: "none",
                 boxSizing: "border-box",
@@ -135,9 +135,9 @@ export function KeyModal({ entry, onClose }: Props) {
                 width: "100%",
                 padding: "10px 14px",
                 fontSize: "14px",
-                border: "1px solid #333",
+                border: "1px solid #3a3a4a",
                 borderRadius: "8px",
-                background: "#0a0a0a",
+                background: "#121218",
                 color: "#fff",
                 outline: "none",
                 boxSizing: "border-box",
@@ -168,7 +168,7 @@ export function KeyModal({ entry, onClose }: Props) {
               style={{
                 padding: "10px 20px",
                 fontSize: "14px",
-                background: "#333",
+                background: "#2a2a3a",
                 color: "#fff",
                 border: "none",
                 borderRadius: "8px",
