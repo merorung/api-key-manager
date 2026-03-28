@@ -181,7 +181,7 @@ export function LockScreen({ onUnlocked }: Props) {
             }}
           >
             <p style={{ fontSize: "13px", color: "#c8c8d8", lineHeight: "1.7", margin: 0 }}>
-              비밀번호 변경은 <span style={{ color: "#e8e8ee", fontWeight: 500 }}>복구 코드로만</span> 가능합니다. 다음 화면의 복구 코드를 꼭 보관하세요.
+              비밀번호 변경은 <span style={{ color: "#e8e8ee", fontWeight: 500 }}>복구 코드로만</span> 가능합니다. 다음 화면에서 제공되는 복구 코드를 꼭 보관하세요.
             </p>
           </div>
         )}
