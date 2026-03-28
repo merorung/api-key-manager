@@ -14,6 +14,8 @@ API 키를 안전하게 관리하는 로컬 데스크톱 앱입니다.
 
 ## 다운로드
 
+다운로드 후 설치하면 바로 사용할 수 있습니다. 별도 설치 요구사항 없음.
+
 | OS | 다운로드 |
 |---|---|
 | **Windows** | [KeyManager-Windows-x64-setup.exe](https://github.com/merorung/api-key-manager/releases/latest/download/KeyManager-Windows-x64-setup.exe) |
@@ -21,7 +23,11 @@ API 키를 안전하게 관리하는 로컬 데스크톱 앱입니다.
 | **Mac (Intel)** | [KeyManager-Mac-Intel.dmg](https://github.com/merorung/api-key-manager/releases/latest/download/KeyManager-Mac-Intel.dmg) |
 | **Linux (Ubuntu/Debian)** | [KeyManager-Linux-amd64.deb](https://github.com/merorung/api-key-manager/releases/latest/download/KeyManager-Linux-amd64.deb) |
 
-## 개발
+---
+
+## 개발자용
+
+소스코드를 직접 빌드하려면 아래 환경이 필요합니다.
 
 ### 사전 요구사항
 
