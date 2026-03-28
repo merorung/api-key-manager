@@ -15,6 +15,7 @@ export function LockScreen({ onUnlocked }: Props) {
   const [loading, setLoading] = useState(false);
   const [recoveryCode, setRecoveryCode] = useState<string | null>(null);
   const [showRecovery, setShowRecovery] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     api.checkVaultExists().then((exists) => setIsFirstRun(!exists));
@@ -48,21 +49,43 @@ export function LockScreen({ onUnlocked }: Props) {
         </p>
         <div
           style={{
-            background: "#1a1a24",
-            border: "1px solid #2a2a3a",
+            background: "rgba(59, 130, 246, 0.06)",
             borderRadius: "10px",
             padding: "20px 28px",
-            marginBottom: "28px",
+            marginBottom: "12px",
           }}
         >
-          <span style={{ color: "#e8e8ee", fontSize: "22px", fontFamily: "'Consolas', 'SF Mono', monospace", letterSpacing: "2px", fontWeight: 600 }}>
+          <span style={{ color: "#e8e8ee", fontSize: "20px", fontFamily: "'Consolas', 'SF Mono', monospace", letterSpacing: "2px", fontWeight: 600 }}>
             {recoveryCode}
           </span>
         </div>
         <button
+          onClick={() => {
+            navigator.clipboard.writeText(recoveryCode || "");
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+          }}
+          style={{
+            padding: "10px 24px",
+            fontSize: "13px",
+            fontWeight: 500,
+            color: copied ? "#22c55e" : "#c8c8d8",
+            background: "#1e1e2a",
+            border: "1px solid #3a3a4a",
+            borderRadius: "6px",
+            cursor: "pointer",
+            marginBottom: "28px",
+            transition: "color 0.2s",
+          }}
+        >
+          {copied ? "복사됨" : "복사하기"}
+        </button>
+        <button
           onClick={onUnlocked}
           style={{
-            padding: "13px 36px",
+            width: "100%",
+            maxWidth: "340px",
+            padding: "13px",
             fontSize: "15px",
             fontWeight: 600,
             color: "#fff",
@@ -75,7 +98,7 @@ export function LockScreen({ onUnlocked }: Props) {
           onMouseEnter={(e) => (e.currentTarget.style.background = "#1d4ed8")}
           onMouseLeave={(e) => (e.currentTarget.style.background = "#2563eb")}
         >
-          저장했습니다. 계속하기
+          계속하기
         </button>
       </div>
     );
