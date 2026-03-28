@@ -12,16 +12,14 @@ API 키를 안전하게 관리하는 로컬 데스크톱 앱입니다.
 - 암호화된 백업 내보내기/가져오기
 - Windows, macOS, Linux 지원
 
-## 설치
+## 다운로드
 
-[Releases](../../releases) 페이지에서 OS에 맞는 파일을 다운로드하세요.
-
-| OS | 파일 |
+| OS | 다운로드 |
 |---|---|
-| Windows | `KeyManager-Windows-x64-setup.exe` |
-| Mac (Apple Silicon) | `KeyManager-Mac-AppleSilicon.dmg` |
-| Mac (Intel) | `KeyManager-Mac-Intel.dmg` |
-| Linux (Ubuntu/Debian) | `KeyManager-Linux-amd64.deb` |
+| **Windows** | [KeyManager-Windows-x64-setup.exe](https://github.com/merorung/api-key-manager/releases/latest/download/KeyManager-Windows-x64-setup.exe) |
+| **Mac (Apple Silicon)** | [KeyManager-Mac-AppleSilicon.dmg](https://github.com/merorung/api-key-manager/releases/latest/download/KeyManager-Mac-AppleSilicon.dmg) |
+| **Mac (Intel)** | [KeyManager-Mac-Intel.dmg](https://github.com/merorung/api-key-manager/releases/latest/download/KeyManager-Mac-Intel.dmg) |
+| **Linux (Ubuntu/Debian)** | [KeyManager-Linux-amd64.deb](https://github.com/merorung/api-key-manager/releases/latest/download/KeyManager-Linux-amd64.deb) |
 
 ## 개발
 
