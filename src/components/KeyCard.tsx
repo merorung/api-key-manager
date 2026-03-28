@@ -23,7 +23,7 @@ export function KeyCard({ entry, onCopy, onEdit, onDelete }: Props) {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "16px",
+        padding: "10px 16px",
         background: "#1e1e2a",
         borderRadius: "8px",
         border: "1px solid #3a3a4a",
