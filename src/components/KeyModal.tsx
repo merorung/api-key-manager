@@ -35,7 +35,7 @@ export function KeyModal({ entry, onClose }: Props) {
           entry.id,
           name !== entry.name ? name : undefined,
           key || undefined,
-          memo !== (entry.memo ?? "") ? memo || null : undefined
+          memo !== (entry.memo ?? "") ? (memo || null) : undefined
         );
       } else {
         await api.addKey(name, key, memo || undefined);

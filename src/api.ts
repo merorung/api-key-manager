@@ -23,13 +23,13 @@ export const api = {
     name?: string,
     key?: string,
     memo?: string | null
-  ) =>
-    invoke<void>("update_key", {
-      id,
-      name: name ?? null,
-      key: key ?? null,
-      memo: memo === undefined ? null : memo,
-    }),
+  ) => {
+    const args: Record<string, unknown> = { id };
+    if (name !== undefined) args.name = name;
+    if (key !== undefined) args.key = key;
+    if (memo !== undefined) args.memo = memo;
+    return invoke<void>("update_key", args);
+  },
 
   deleteKey: (id: string) => invoke<void>("delete_key", { id }),
 
