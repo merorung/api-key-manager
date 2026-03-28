@@ -20,7 +20,8 @@ tauri-plugin-dialog = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 aes-gcm = "0.10"
-argon2 = "0.5"
+argon2 = { version = "0.5", features = ["std"] }
+zeroize = { version = "1", features = ["derive"] }
 uuid = { version = "1", features = ["v4"] }
 arboard = "3"
 rand = "0.8"

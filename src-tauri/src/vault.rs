@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::PathBuf;
 use uuid::Uuid;
+use zeroize::Zeroize;
 
 use crate::crypto;
 
@@ -55,6 +56,15 @@ pub struct Vault {
     pub data: VaultData,
     password: String,
     path: PathBuf,
+}
+
+impl Drop for Vault {
+    fn drop(&mut self) {
+        self.password.zeroize();
+        for key in &mut self.data.keys {
+            key.key.zeroize();
+        }
+    }
 }
 
 impl Vault {

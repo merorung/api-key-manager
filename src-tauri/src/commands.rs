@@ -189,9 +189,12 @@ pub fn setup_vault_with_recovery(
     let settings = state.settings.lock().unwrap();
     let path = PathBuf::from(&settings.vault_path);
 
-    let recovery_code = recovery::generate_recovery_code();
     let vault = Vault::create(&password, path.clone())?;
-    recovery::save_recovery(&path, &recovery_code, &password)?;
+    let vault_json = serde_json::to_vec(&vault.data)
+        .map_err(|e| format!("serialization failed: {}", e))?;
+
+    let recovery_code = recovery::generate_recovery_code();
+    recovery::save_recovery(&path, &recovery_code, &vault_json)?;
 
     let mut vault_state = state.vault.lock().unwrap();
     *vault_state = Some(vault);
@@ -212,12 +215,20 @@ pub fn recover_vault(
     let settings = state.settings.lock().unwrap();
     let path = PathBuf::from(&settings.vault_path);
 
-    let old_password = recovery::recover_master_password(&path, &recovery_code)?;
-    let mut vault = Vault::open(&old_password, path.clone())?;
-    vault.change_password(&new_password)?;
+    // Recover vault data directly (not master password)
+    let vault_json = recovery::recover_vault_data(&path, &recovery_code)?;
+    let data: crate::vault::VaultData = serde_json::from_slice(&vault_json)
+        .map_err(|e| format!("vault parse failed: {}", e))?;
 
-    let new_recovery_code = recovery::generate_recovery_code();
-    recovery::save_recovery(&path, &new_recovery_code, &new_password)?;
+    // Create new vault with new password
+    let mut vault = Vault::create(&new_password, path.clone())?;
+    vault.data = data;
+    vault.save()?;
+
+    // Generate new recovery code for the new vault
+    let new_vault_json = serde_json::to_vec(&vault.data)
+        .map_err(|e| format!("serialization failed: {}", e))?;
+    recovery::save_recovery(&path, &recovery::generate_recovery_code(), &new_vault_json)?;
 
     let mut vault_state = state.vault.lock().unwrap();
     *vault_state = Some(vault);
