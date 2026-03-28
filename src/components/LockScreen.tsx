@@ -150,14 +150,41 @@ export function LockScreen({ onUnlocked }: Props) {
           showToggle={isFirstRun}
         />
         {isFirstRun && (
-          <div style={{ marginTop: "12px" }}>
-            <PasswordInput
-              value={confirmPassword}
-              onChange={setConfirmPassword}
-              placeholder="비밀번호 확인"
-              showToggle
-            />
-          </div>
+          <>
+            <div style={{ marginTop: "12px" }}>
+              <PasswordInput
+                value={confirmPassword}
+                onChange={setConfirmPassword}
+                placeholder="비밀번호 확인"
+                showToggle
+              />
+            </div>
+            {confirmPassword && (
+              <div
+                style={{
+                  fontSize: "13px",
+                  marginTop: "8px",
+                  color: password === confirmPassword ? "#22c55e" : "#ef4444",
+                }}
+              >
+                {password === confirmPassword
+                  ? "비밀번호가 일치합니다"
+                  : "비밀번호가 일치하지 않습니다"}
+              </div>
+            )}
+            <div
+              style={{
+                fontSize: "12px",
+                color: "#666",
+                marginTop: "12px",
+                lineHeight: "1.5",
+              }}
+            >
+              비밀번호는 한 번 설정하면 복구 코드로만 변경할 수 있습니다.
+              <br />
+              설정 후 표시되는 복구 코드를 반드시 안전한 곳에 보관하세요.
+            </div>
+          </>
         )}
         {error && (
           <div
