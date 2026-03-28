@@ -3,7 +3,7 @@ import { api } from "../api";
 import { PasswordInput } from "./PasswordInput";
 
 interface Props {
-  onRecovered: () => void;
+  onRecovered: (newRecoveryCode: string) => void;
   onClose: () => void;
 }
 
@@ -25,8 +25,8 @@ export function RecoveryModal({ onRecovered, onClose }: Props) {
 
     setLoading(true);
     try {
-      await api.recoverVault(recoveryCode.trim(), newPassword);
-      onRecovered();
+      const newCode = await api.recoverVault(recoveryCode.trim(), newPassword);
+      onRecovered(newCode);
     } catch (err) {
       setError(
         typeof err === "string" ? err : "복구에 실패했습니다. 복구 코드를 확인하세요."

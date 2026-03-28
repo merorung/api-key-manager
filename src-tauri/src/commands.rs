@@ -134,11 +134,12 @@ pub fn change_password(
         return Err(validation.errors.join(", "));
     }
 
-    let settings = state.settings.lock().unwrap();
-    let path = PathBuf::from(&settings.vault_path);
-    let _ = Vault::open(&old_password, path)?;
-
-    with_vault_mut(&state, |v| v.change_password(&new_password))
+    with_vault_mut(&state, |v| {
+        if !v.verify_password(&old_password) {
+            return Err("현재 비밀번호가 올바르지 않습니다".to_string());
+        }
+        v.change_password(&new_password)
+    })
 }
 
 #[tauri::command]
@@ -190,8 +191,7 @@ pub fn setup_vault_with_recovery(
     let path = PathBuf::from(&settings.vault_path);
 
     let vault = Vault::create(&password, path.clone())?;
-    let vault_json = serde_json::to_vec(&vault.data)
-        .map_err(|e| format!("serialization failed: {}", e))?;
+    let vault_json = vault.serialize_data()?;
 
     let recovery_code = recovery::generate_recovery_code();
     recovery::save_recovery(&path, &recovery_code, &vault_json)?;
@@ -206,7 +206,7 @@ pub fn recover_vault(
     recovery_code: String,
     new_password: String,
     state: State<'_, AppState>,
-) -> Result<(), String> {
+) -> Result<String, String> {
     let validation = password::validate_password(&new_password);
     if !validation.valid {
         return Err(validation.errors.join(", "));
@@ -215,22 +215,17 @@ pub fn recover_vault(
     let settings = state.settings.lock().unwrap();
     let path = PathBuf::from(&settings.vault_path);
 
-    // Recover vault data directly (not master password)
     let vault_json = recovery::recover_vault_data(&path, &recovery_code)?;
     let data: crate::vault::VaultData = serde_json::from_slice(&vault_json)
         .map_err(|e| format!("vault parse failed: {}", e))?;
 
-    // Create new vault with new password
-    let mut vault = Vault::create(&new_password, path.clone())?;
-    vault.data = data;
-    vault.save()?;
+    let vault = Vault::from_data(&new_password, path.clone(), data)?;
 
-    // Generate new recovery code for the new vault
-    let new_vault_json = serde_json::to_vec(&vault.data)
-        .map_err(|e| format!("serialization failed: {}", e))?;
-    recovery::save_recovery(&path, &recovery::generate_recovery_code(), &new_vault_json)?;
+    let new_recovery_code = recovery::generate_recovery_code();
+    let new_vault_json = vault.serialize_data()?;
+    recovery::save_recovery(&path, &new_recovery_code, &new_vault_json)?;
 
     let mut vault_state = state.vault.lock().unwrap();
     *vault_state = Some(vault);
-    Ok(())
+    Ok(new_recovery_code)
 }

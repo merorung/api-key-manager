@@ -55,5 +55,5 @@ export const api = {
     invoke<string>("setup_vault_with_recovery", { password }),
 
   recoverVault: (recoveryCode: string, newPassword: string) =>
-    invoke<void>("recover_vault", { recoveryCode, newPassword }),
+    invoke<string>("recover_vault", { recoveryCode, newPassword }),
 };

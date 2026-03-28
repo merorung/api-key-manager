@@ -265,7 +265,7 @@ export function LockScreen({ onUnlocked }: Props) {
       )}
       {showRecovery && (
         <RecoveryModal
-          onRecovered={onUnlocked}
+          onRecovered={(newCode) => setRecoveryCode(newCode)}
           onClose={() => setShowRecovery(false)}
         />
       )}

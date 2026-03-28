@@ -7,8 +7,7 @@ use crate::crypto;
 const CODE_SEGMENTS: usize = 6;
 const SEGMENT_LENGTH: usize = 5;
 
-/// Generate a recovery code with ~155 bits of entropy
-/// 6 segments x 5 chars x log2(32) = 150 bits
+/// 6 segments x 5 chars x log2(32) = 150 bits of entropy
 pub fn generate_recovery_code() -> String {
     let mut rng = rand::thread_rng();
     let charset: &[u8] = b"ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no O/0/I/1

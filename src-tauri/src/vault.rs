@@ -52,6 +52,17 @@ pub fn mask_key(key: &str) -> String {
     format!("{}****{}", prefix, suffix)
 }
 
+impl KeyEntry {
+    fn to_masked(&self) -> MaskedKeyEntry {
+        MaskedKeyEntry {
+            id: self.id.clone(),
+            name: self.name.clone(),
+            masked_key: mask_key(&self.key),
+            memo: self.memo.clone(),
+        }
+    }
+}
+
 pub struct Vault {
     pub data: VaultData,
     password: String,
@@ -78,6 +89,16 @@ impl Vault {
         Ok(vault)
     }
 
+    pub fn from_data(password: &str, path: PathBuf, data: VaultData) -> Result<Self, String> {
+        let vault = Self {
+            data,
+            password: password.to_string(),
+            path,
+        };
+        vault.save()?;
+        Ok(vault)
+    }
+
     pub fn open(password: &str, path: PathBuf) -> Result<Self, String> {
         let bytes =
             fs::read(&path).map_err(|e| format!("vault file read failed: {}", e))?;
@@ -97,13 +118,17 @@ impl Vault {
         path.exists()
     }
 
+    pub fn serialize_data(&self) -> Result<Vec<u8>, String> {
+        serde_json::to_vec(&self.data)
+            .map_err(|e| format!("serialization failed: {}", e))
+    }
+
     pub fn save(&self) -> Result<(), String> {
         if let Some(parent) = self.path.parent() {
             fs::create_dir_all(parent)
                 .map_err(|e| format!("failed to create vault directory: {}", e))?;
         }
-        let json = serde_json::to_vec(&self.data)
-            .map_err(|e| format!("serialization failed: {}", e))?;
+        let json = self.serialize_data()?;
         let encrypted = crypto::encrypt(&json, &self.password)?;
         fs::write(&self.path, encrypted.to_bytes())
             .map_err(|e| format!("vault write failed: {}", e))?;
@@ -111,16 +136,7 @@ impl Vault {
     }
 
     pub fn list_masked(&self) -> Vec<MaskedKeyEntry> {
-        self.data
-            .keys
-            .iter()
-            .map(|k| MaskedKeyEntry {
-                id: k.id.clone(),
-                name: k.name.clone(),
-                masked_key: mask_key(&k.key),
-                memo: k.memo.clone(),
-            })
-            .collect()
+        self.data.keys.iter().map(|k| k.to_masked()).collect()
     }
 
     pub fn search(&self, query: &str) -> Vec<MaskedKeyEntry> {
@@ -134,12 +150,7 @@ impl Vault {
                         .as_ref()
                         .map_or(false, |m| m.to_lowercase().contains(&q))
             })
-            .map(|k| MaskedKeyEntry {
-                id: k.id.clone(),
-                name: k.name.clone(),
-                masked_key: mask_key(&k.key),
-                memo: k.memo.clone(),
-            })
+            .map(|k| k.to_masked())
             .collect()
     }
 
@@ -207,6 +218,10 @@ impl Vault {
             .find(|k| k.id == id)
             .map(|k| k.key.clone())
             .ok_or_else(|| "key not found".to_string())
+    }
+
+    pub fn verify_password(&self, password: &str) -> bool {
+        self.password == password
     }
 
     pub fn change_password(&mut self, new_password: &str) -> Result<(), String> {
