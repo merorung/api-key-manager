@@ -50,4 +50,10 @@ export const api = {
 
   updateSettings: (settings: AppSettings) =>
     invoke<void>("update_settings", { newSettings: settings }),
+
+  setupVaultWithRecovery: (password: string) =>
+    invoke<string>("setup_vault_with_recovery", { password }),
+
+  recoverVault: (recoveryCode: string, newPassword: string) =>
+    invoke<void>("recover_vault", { recoveryCode, newPassword }),
 };

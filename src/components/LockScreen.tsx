@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { api } from "../api";
 import { PasswordInput } from "./PasswordInput";
+import { RecoveryModal } from "./RecoveryModal";
 
 interface Props {
   onUnlocked: () => void;
@@ -12,12 +13,84 @@ export function LockScreen({ onUnlocked }: Props) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [recoveryCode, setRecoveryCode] = useState<string | null>(null);
+  const [showRecovery, setShowRecovery] = useState(false);
 
   useEffect(() => {
     api.checkVaultExists().then((exists) => setIsFirstRun(!exists));
   }, []);
 
   if (isFirstRun === null) return null;
+
+  // Show recovery code after first setup
+  if (recoveryCode) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          background: "#0a0a0a",
+          padding: "20px",
+        }}
+      >
+        <h1 style={{ color: "#fff", marginBottom: "8px", fontSize: "24px" }}>
+          복구 코드
+        </h1>
+        <p
+          style={{
+            color: "#ef4444",
+            marginBottom: "24px",
+            fontSize: "14px",
+            textAlign: "center",
+            maxWidth: "360px",
+          }}
+        >
+          이 코드는 다시 볼 수 없습니다. 안전한 곳에 적어두세요.
+          <br />
+          비밀번호를 잊었을 때 이 코드로 복구할 수 있습니다.
+        </p>
+        <div
+          style={{
+            background: "#1a1a1a",
+            border: "2px solid #2563eb",
+            borderRadius: "12px",
+            padding: "24px 32px",
+            marginBottom: "32px",
+          }}
+        >
+          <span
+            style={{
+              color: "#fff",
+              fontSize: "24px",
+              fontFamily: "monospace",
+              letterSpacing: "3px",
+              fontWeight: "bold",
+            }}
+          >
+            {recoveryCode}
+          </span>
+        </div>
+        <button
+          onClick={onUnlocked}
+          style={{
+            padding: "12px 40px",
+            fontSize: "16px",
+            fontWeight: "600",
+            color: "#fff",
+            background: "#2563eb",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+          }}
+        >
+          코드를 저장했습니다
+        </button>
+      </div>
+    );
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,11 +104,12 @@ export function LockScreen({ onUnlocked }: Props) {
           setLoading(false);
           return;
         }
-        await api.setupVault(password);
+        const code = await api.setupVaultWithRecovery(password);
+        setRecoveryCode(code);
       } else {
         await api.unlock(password);
+        onUnlocked();
       }
-      onUnlocked();
     } catch (err) {
       setError(
         typeof err === "string" ? err : "잠금 해제에 실패했습니다"
@@ -60,9 +134,7 @@ export function LockScreen({ onUnlocked }: Props) {
       <h1 style={{ color: "#fff", marginBottom: "8px", fontSize: "24px" }}>
         Key Manager
       </h1>
-      <p
-        style={{ color: "#888", marginBottom: "32px", fontSize: "14px" }}
-      >
+      <p style={{ color: "#888", marginBottom: "32px", fontSize: "14px" }}>
         {isFirstRun
           ? "마스터 비밀번호를 설정하세요"
           : "마스터 비밀번호를 입력하세요"}
@@ -109,8 +181,7 @@ export function LockScreen({ onUnlocked }: Props) {
             background: "#2563eb",
             border: "none",
             borderRadius: "8px",
-            cursor:
-              loading || !password ? "not-allowed" : "pointer",
+            cursor: loading || !password ? "not-allowed" : "pointer",
             opacity: loading || !password ? 0.5 : 1,
           }}
         >
@@ -121,6 +192,28 @@ export function LockScreen({ onUnlocked }: Props) {
               : "잠금 해제"}
         </button>
       </form>
+      {!isFirstRun && (
+        <button
+          onClick={() => setShowRecovery(true)}
+          style={{
+            marginTop: "16px",
+            background: "none",
+            border: "none",
+            color: "#666",
+            fontSize: "13px",
+            cursor: "pointer",
+            textDecoration: "underline",
+          }}
+        >
+          비밀번호를 잊으셨나요?
+        </button>
+      )}
+      {showRecovery && (
+        <RecoveryModal
+          onRecovered={onUnlocked}
+          onClose={() => setShowRecovery(false)}
+        />
+      )}
     </div>
   );
 }

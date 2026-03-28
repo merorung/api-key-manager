@@ -4,6 +4,7 @@ use tauri::State;
 
 use crate::clipboard::ClipboardManager;
 use crate::password::{self, PasswordValidation};
+use crate::recovery;
 use crate::settings::AppSettings;
 use crate::vault::{MaskedKeyEntry, Vault};
 
@@ -173,4 +174,52 @@ pub fn update_settings(
     let mut settings = state.settings.lock().unwrap();
     *settings = new_settings;
     settings.save()
+}
+
+#[tauri::command]
+pub fn setup_vault_with_recovery(
+    password: String,
+    state: State<'_, AppState>,
+) -> Result<String, String> {
+    let validation = password::validate_password(&password);
+    if !validation.valid {
+        return Err(validation.errors.join(", "));
+    }
+
+    let settings = state.settings.lock().unwrap();
+    let path = PathBuf::from(&settings.vault_path);
+
+    let recovery_code = recovery::generate_recovery_code();
+    let vault = Vault::create(&password, path.clone())?;
+    recovery::save_recovery(&path, &recovery_code, &password)?;
+
+    let mut vault_state = state.vault.lock().unwrap();
+    *vault_state = Some(vault);
+    Ok(recovery_code)
+}
+
+#[tauri::command]
+pub fn recover_vault(
+    recovery_code: String,
+    new_password: String,
+    state: State<'_, AppState>,
+) -> Result<(), String> {
+    let validation = password::validate_password(&new_password);
+    if !validation.valid {
+        return Err(validation.errors.join(", "));
+    }
+
+    let settings = state.settings.lock().unwrap();
+    let path = PathBuf::from(&settings.vault_path);
+
+    let old_password = recovery::recover_master_password(&path, &recovery_code)?;
+    let mut vault = Vault::open(&old_password, path.clone())?;
+    vault.change_password(&new_password)?;
+
+    let new_recovery_code = recovery::generate_recovery_code();
+    recovery::save_recovery(&path, &new_recovery_code, &new_password)?;
+
+    let mut vault_state = state.vault.lock().unwrap();
+    *vault_state = Some(vault);
+    Ok(())
 }

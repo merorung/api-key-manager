@@ -2,6 +2,7 @@ mod clipboard;
 mod commands;
 mod crypto;
 mod password;
+mod recovery;
 mod settings;
 mod vault;
 
@@ -37,6 +38,8 @@ pub fn run() {
             commands::import_vault,
             commands::get_settings,
             commands::update_settings,
+            commands::setup_vault_with_recovery,
+            commands::recover_vault,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
