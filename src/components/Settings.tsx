@@ -186,7 +186,10 @@ export function Settings({ onBack }: Props) {
       </div>
 
       <div style={sectionStyle}>
-        <span style={labelStyle}>클립보드 자동 삭제</span>
+        <span style={labelStyle}>복사한 키 자동 삭제</span>
+        <p style={{ fontSize: "12px", color: "#8888a0", marginBottom: "10px", marginTop: "-8px" }}>
+          키 복사 후 설정된 시간이 지나면 붙여넣기가 안 되도록 자동 삭제됩니다
+        </p>
         <div
           style={{
             display: "flex",
